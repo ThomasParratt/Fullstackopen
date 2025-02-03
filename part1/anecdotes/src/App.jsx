@@ -14,9 +14,18 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
 
+  const getRandom = () => {
+    let randomNum = Math.floor(Math.random() * anecdotes.length)
+    console.log(randomNum)
+    return (
+      randomNum
+    )
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <button onClick={() => setSelected(getRandom())}>next anecdote</button>
     </div>
   )
 }
