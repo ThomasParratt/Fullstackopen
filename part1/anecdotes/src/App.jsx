@@ -8,7 +8,7 @@ const MostVotes = (props) => {
     }
   }
   return (
-    <p>{props.votes[maxIndex]}</p>
+    <p>{props.anecdotes[maxIndex]}</p>
   )
 }
 
@@ -47,7 +47,7 @@ const App = () => {
       <button onClick={() => countVotes()}>vote</button>
       <button onClick={() => getRandom()}>next anecdote</button>
       <h1>Anecdote with the most votes</h1>
-      <MostVotes votes={votes} />
+      <MostVotes votes={votes} anecdotes={anecdotes} />
     </div>
   )
 }
