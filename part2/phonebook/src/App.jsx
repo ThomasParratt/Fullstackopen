@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import PersonForm from './components/PersonForm.jsx'
-import Persons from './components/Persons.jsx'
+import Person from './components/Person.jsx'
 import personService from './services/persons'
 
 const App = () => {
@@ -39,6 +39,24 @@ const App = () => {
     })
   }
 
+  const deleteName = (id) => {
+    const person = persons.find((n) => n.id === id)
+
+    if (!window.confirm(`Delete ${person.name}?`)) {
+      return
+    }
+
+    personService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter((n) => n.id !== id))
+      })
+      .catch(() => {
+        alert(`${person.name} was already deleted from server`)
+        setPersons(persons.filter((n) => n.id !== id))
+      })
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -52,7 +70,14 @@ const App = () => {
       <h2>Phonebook</h2>
         <PersonForm add={addName} name={newName} number={newNumber} nameChange={handleNameChange} numberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-        <Persons persons={persons}/>
+          {persons.map((persons) => (
+            <Person
+              key={persons.id}
+              name={persons.name}
+              number={persons.number}
+              handleDelete={() => deleteName(persons.id)}
+            />
+          ))}
     </div>
   )
 }
