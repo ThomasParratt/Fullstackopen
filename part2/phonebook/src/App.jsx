@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import PersonForm from './components/PersonForm.jsx'
 import Person from './components/Person.jsx'
+import Notification from './components/Notification.jsx'
 import personService from './services/persons'
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -32,7 +34,12 @@ const App = () => {
       number: newNumber
     }
 
-    personService.create(personObject).then((returnedPerson) => {
+    setMessage(`Added ${newName}`)
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+
+    personService.create(personObject).then(() => {
       setPersons(persons.concat(personObject))
       setNewName('')
       setNewNumber('')
@@ -68,6 +75,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
         <PersonForm add={addName} name={newName} number={newNumber} nameChange={handleNameChange} numberChange={handleNumberChange}/>
       <h2>Numbers</h2>
           {persons.map((persons) => (
